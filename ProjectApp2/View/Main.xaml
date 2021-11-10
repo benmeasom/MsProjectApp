@@ -1,0 +1,179 @@
+﻿<Window x:Class="ProjectApp2.View.Main"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectApp2.ViewModel"  
+        xmlns:local2="clr-namespace:ProjectApp2.Converters"
+        xmlns:localenums="clr-namespace:ProjectApp2.Model.enums"
+        mc:Ignorable="d"
+        Title="Main" Height="550" Width="890">
+    <Window.DataContext>
+        <local:TasksViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <local2:NegateConverter x:Key="negate" />
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260*"/>
+            <ColumnDefinition Width="142*"/>
+            <ColumnDefinition Width="147*"/>
+            <ColumnDefinition Width="313*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="7*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.ColumnSpan="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="1.3*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="33*"/>
+                <ColumnDefinition Width="107*"/>
+                <ColumnDefinition Width="91*"/>
+                <ColumnDefinition Width="93*"/>
+                <ColumnDefinition Width="538*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Row="0" BorderBrush="Silver" BorderThickness="1" 
+                    Grid.RowSpan="2" Grid.ColumnSpan="5">
+            </Border>
+            <Border Grid.Row="2" BorderBrush="Silver" BorderThickness="1" 
+                    Grid.ColumnSpan="5">
+            </Border>
+            <Border Grid.Row="3" BorderBrush="Silver" BorderThickness="1" 
+                    Grid.ColumnSpan="5">
+            </Border>
+            <Border Grid.Row="4" BorderBrush="Silver" BorderThickness="1" 
+                    Grid.RowSpan="2" Grid.ColumnSpan="5">
+            </Border>
+            <TextBlock Margin="5" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" Grid.ColumnSpan="2" Height="16">
+                <Run FontWeight="Bold">Percentage Complete</Run>
+            </TextBlock>
+            <RadioButton GroupName="perc" Grid.Column="2" Name="radio1" Content="Excel" VerticalAlignment="Center"
+                             IsChecked="{Binding PerctgComplExcel}"                              
+                             Command="{Binding PercCompChangeCommand}"
+                             CommandParameter="Radio1"  />
+            <RadioButton GroupName="perc" Grid.Column="2" Grid.Row="1"  Content="SQL" VerticalAlignment="Center"
+                             Command="{Binding PercCompChangeCommand}"
+                             CommandParameter="Radio2" />
+            <Button Grid.Column="3" Content="Open" Width="50"
+                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                    IsEnabled="{Binding IsChecked, ElementName=radio1}"
+                    Command="{Binding OpenExcelTasksDialogCommand}" />
+            <TextBlock Grid.Column="4" Text="{Binding ExcelTasksFileName}"
+                       TextWrapping="WrapWithOverflow" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="3" Grid.Row="1" Margin="13,10" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <Run FontWeight="Bold">Table Name</Run>
+            </TextBlock>
+            <TextBox Padding="2" Margin="4,4,0,4" Width="200" Grid.Column="4" 
+                     IsEnabled="{Binding IsChecked, ElementName=radio1, Converter={StaticResource negate}}"
+                     Grid.Row="1" HorizontalAlignment="Left"
+                     Text="{Binding PercCompleteTableName}"/>
+            <TextBlock Margin="5" Grid.Row="2" Grid.ColumnSpan="3" VerticalAlignment="Center">
+                <Run FontWeight="Bold">Rate Sheet</Run> Excel File
+            </TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding ExcelRateSheetFileName}"
+                       TextWrapping="WrapWithOverflow" VerticalAlignment="Center" />
+            <Button Grid.Row="2" Grid.Column="3" Content="Open" Width="50" 
+                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Command="{Binding OpenExcelRateSheetDialogCommand}"/>
+
+            <TextBlock Margin="5" Grid.Row="3" Grid.ColumnSpan="3" VerticalAlignment="Center">
+                <Run FontWeight="Bold">Ordering</Run> Excel File
+            </TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding ExcelOrderFileName}"
+                       TextWrapping="WrapWithOverflow" VerticalAlignment="Center" />
+            <Button Grid.Row="3" Grid.Column="3" Content="Open" Width="50" 
+                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Command="{Binding OpenExcelOrderDialogCommand}" />
+
+            <TextBlock Margin="5" Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2" 
+                       VerticalAlignment="Center"><Run FontWeight="Bold" Text="Ms Project"/><Run FontWeight="Bold" Text=" File"/></TextBlock>
+
+            <RadioButton GroupName="prj" Grid.Row="4" Grid.Column="2" Name="radioMsPrjFile"                           
+                         Content="Existing File" VerticalAlignment="Center"
+                         IsChecked="{Binding MsProjectExistingFile}"                              
+                         Command="{Binding MsPrjFileChangeCommand}"
+                         />
+            <RadioButton GroupName="prj" Grid.Row="5" Grid.Column="2" Content="New Project File" 
+                         VerticalAlignment="Center" Grid.ColumnSpan="2"
+                          Command="{Binding MsPrjFileChangeCommand}" HorizontalAlignment="Left" Margin="0.616,10,0,5.333" Width="130" Height="18"  
+                         />
+            <Button Grid.Row="4" Grid.Column="3" Content="Open" Width="50" 
+                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                    IsEnabled="{Binding IsChecked, ElementName=radioMsPrjFile}"
+                    Command="{Binding OpenMsProjectDialogCommand}" />
+            <TextBlock Grid.Row="4" Grid.Column="4" Text="{Binding MsProjectFileName}"
+                       TextWrapping="WrapWithOverflow" VerticalAlignment="Center" Margin="0,10" Height="16"/>
+            <WrapPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" >
+                <Button Width="80"  Height="40" Margin="0,3,10,0"                    
+                    Command="{Binding TransferCommand}" 
+                    CommandParameter="{x:Static localenums:ProjectTransferType.NewProject}">
+                    <TextBlock Text="Create New Project" TextWrapping="Wrap" TextAlignment="Center"/>
+                </Button>
+
+                <Button Width="80"  Height="40" Margin="0,3,10,0"                    
+                    Command="{Binding UpdateProgresCommand}" 
+                    CommandParameter="{x:Static localenums:ProjectTransferType.UpdateProject}">
+                    <TextBlock Text="Update Progress" TextWrapping="Wrap" TextAlignment="Center"/>
+                </Button>
+            </WrapPanel>
+            <Grid Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"
+                Text="{Binding ImportSuccessStatus}" />
+            </Grid>
+
+        </Grid>
+        <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="4">
+            <Grid Height="169" VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="6*"/>
+
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="5" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+                Please Select Server information to connect and get "Labour Phase Order"
+                </TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="1" Margin="5">
+                <Bold>Server Name</Bold>
+                </TextBlock>
+                <TextBox Padding="2" Margin="4" Width="200" Grid.Column="1" 
+                         Grid.Row="1" HorizontalAlignment="Left" Text="{Binding ServerName, Mode=TwoWay}" />
+                <TextBlock Grid.Column="0" Grid.Row="2" Margin="5">
+                <Bold>Database Name</Bold>
+                </TextBlock>
+                <TextBox Padding="2" Margin="4" Width="200" Grid.Column="1" 
+                         Grid.Row="2" HorizontalAlignment="Left" Text="{Binding DatabaseName, Mode=TwoWay}" />
+                <TextBlock Grid.Column="0" Grid.Row="3" Margin="5">
+                <Bold>Table Name (*)</Bold>
+                </TextBlock>
+                <TextBox Padding="2" Margin="4" Width="200" Grid.Column="1" 
+                         Grid.Row="3" HorizontalAlignment="Left" Text="{Binding TableName, Mode=TwoWay}" />
+                <TextBlock Margin="5" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2">
+                * Table should contain <Run FontWeight="Bold">phasename</Run> and 
+                    <Run FontWeight="Bold">order</Run> columns as provided with sample data
+                </TextBlock>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
